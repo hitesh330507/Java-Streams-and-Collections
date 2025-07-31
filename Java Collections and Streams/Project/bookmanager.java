@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 @SuppressWarnings("unused")
 class bookmanager {
     public static void addbook(Map<Book, Boolean> books, Scanner sc) {
@@ -42,36 +43,8 @@ class bookmanager {
         List<Book> sortedbytitlebooks = books.keySet().stream()
                 .sorted(Comparator.comparing((Book b) -> b.getBookname()))
                 .collect(Collectors.toList());
-        System.out.println();
-        System.out.println("Fetching Book Details...........");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(
-                "--------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-8s %-20s %-20s %-20s %-10s %-15s %-10s\n",
-                "Book ID", "Book Name", "Book Author", "Publisher", "Price", "Book Type", "Available");
-        System.out.println(
-                "--------------------------------------------------------------------------------------------------------------");
-        if (sortedbytitlebooks.isEmpty())
-            System.out.println("                                        Our Stack is Empty For Now!!!!!!!!!!!!!!!");
-        else {
-            for (Book b : sortedbytitlebooks) {
-                System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
-                        b.getBookid(),
-                        b.getBookname(),
-                        b.getAuthor(),
-                        b.getPublisher(),
-                        b.getPrice(),
-                        b.getBooktype(),
-                        books.get(b) ? "Yes" : "No");
-            }
-        }
-        System.out.println(
-                "--------------------------------------------------------------------------------------------------------------");
-
+        printbook(sortedbytitlebooks, books);
+        delay();
     }
 
     // The Delete Fuction.......!!!!!!!!!!!!!!!!!!
@@ -197,12 +170,13 @@ class bookmanager {
                 System.out.println("Returning to menu...");
                 break;
         }
+        delay();
     }
 
     // Searching a book.....
 
     public static void searchbook(Map<Book, Boolean> books, Scanner sc) {
-        List<Book> result=new ArrayList<>();
+        List<Book> result = new ArrayList<>();
         System.out.println("Select the option based on which you wanna search the book???");
         System.out.println("1.Book ID");
         System.out.println("2.Book Name");
@@ -216,7 +190,7 @@ class bookmanager {
                 System.out.println("Enter the Book ID");
                 int bookid = sc.nextInt();
                 System.out.println("Searching Book with ID " + bookid + "......");
-                result =books.keySet().stream().filter(b -> b.getBookid() == bookid).collect(Collectors.toList());
+                result = books.keySet().stream().filter(b -> b.getBookid() == bookid).collect(Collectors.toList());
                 System.out.println();
                 if (result.isEmpty())
                     System.out.println("Came later the book you ask is currently Unavailable.....");
@@ -228,117 +202,175 @@ class bookmanager {
                     for (Book b : result) {
                         System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
                                 b.getBookid(), b.getBookname(), b.getAuthor(), b.getPublisher(),
-                                b.getPrice(), b.getBooktype(),books.get(b) ? "Yes":"No");
+                                b.getPrice(), b.getBooktype(), books.get(b) ? "Yes" : "No");
                     }
                 }
                 result.clear();
-            break;
+                break;
 
             case 2:
                 System.out.println("Enter the Book Name");
                 String name = sc.nextLine().toLowerCase().trim();
                 System.out.println("Searching Book " + name + "......");
                 result = books.keySet().stream().filter(b -> b.getBookname()
-                            .toLowerCase()
-                            .trim()
-                            .equals(name)).collect(Collectors.toList());
-                
+                        .toLowerCase()
+                        .trim()
+                        .equals(name)).collect(Collectors.toList());
+
                 System.out.println();
                 if (result.isEmpty())
                     System.out.println("Came later the book you ask is currently Unavailable.....");
                 else {
-                    System.out.printf("%-8s %-20s %-20s %-20s %-10s %-15s %-10s\n",
-                            "Book ID", "Book Name", "Book Author", "Publisher", "Price", "Book Type", "Available");
-                    System.out.println(
-                            "--------------------------------------------------------------------------------------------------------------");
-                    for (Book b : result) {
-                        System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
-                                b.getBookid(), b.getBookname(), b.getAuthor(), b.getPublisher(),
-                                b.getPrice(), b.getBooktype(),books.get(b) ? "Yes":"No");
-                    }
+                    printbook(result, books);
                 }
                 result.clear();
-            break;
+                break;
 
             case 3:
                 System.out.println("Enter the Book Author");
                 String author = sc.nextLine().toLowerCase().trim();
                 System.out.println("Searching Book written by " + author + "......");
                 result = books.keySet().stream().filter(b -> b.getAuthor()
-                            .toLowerCase()
-                            .trim()
-                            .equals(author)).collect(Collectors.toList());
-                
+                        .toLowerCase()
+                        .trim()
+                        .equals(author)).collect(Collectors.toList());
+
                 System.out.println();
                 if (result.isEmpty())
                     System.out.println("Came later the book you ask is currently Unavailable.....");
                 else {
-                    System.out.printf("%-8s %-20s %-20s %-20s %-10s %-15s %-10s\n",
-                            "Book ID", "Book Name", "Book Author", "Publisher", "Price", "Book Type", "Available");
-                    System.out.println(
-                            "--------------------------------------------------------------------------------------------------------------");
-                    for (Book b : result) {
-                        System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
-                                b.getBookid(), b.getBookname(), b.getAuthor(), b.getPublisher(),
-                                b.getPrice(), b.getBooktype(),books.get(b) ? "Yes":"No");
-                    }
+                    printbook(result, books);
                 }
                 result.clear();
-            break;
+                break;
 
             case 4:
                 System.out.println("Enter the Book Publishers");
                 String publisher = sc.nextLine().toLowerCase().trim();
                 System.out.println("Searching Book Published by " + publisher + "......");
                 result = books.keySet().stream().filter(b -> b.getPublisher()
-                            .toLowerCase()
-                            .trim()
-                            .equals(publisher)).collect(Collectors.toList());
-                
+                        .toLowerCase()
+                        .trim()
+                        .equals(publisher)).collect(Collectors.toList());
+
                 System.out.println();
                 if (result.isEmpty())
                     System.out.println("Came later the book you ask is currently Unavailable.....");
                 else {
-                    System.out.printf("%-8s %-20s %-20s %-20s %-10s %-15s %-10s\n",
-                            "Book ID", "Book Name", "Book Author", "Publisher", "Price", "Book Type", "Available");
-                    System.out.println(
-                            "--------------------------------------------------------------------------------------------------------------");
-                    for (Book b : result) {
-                        System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
-                                b.getBookid(), b.getBookname(), b.getAuthor(), b.getPublisher(),
-                                b.getPrice(), b.getBooktype(),books.get(b) ? "Yes":"No");
-                    }
+                    printbook(result, books);
                 }
                 result.clear();
-            break;
+                break;
 
             case 5:
                 System.out.println("Enter the Book Type");
                 String type = sc.nextLine().toLowerCase().trim();
                 System.out.println("Searching " + type + " Books......");
                 result = books.keySet().stream().filter(b -> b.getBooktype()
-                            .toLowerCase()
-                            .trim()
-                            .equals(type)).collect(Collectors.toList());
+                        .toLowerCase()
+                        .trim()
+                        .equals(type)).collect(Collectors.toList());
                 System.out.println();
                 if (result.isEmpty())
-                    System.out.println("Came later the book you ask is currently Unavailable.....");
+                    System.out.println("Come back later the book you ask is currently Unavailable.....");
                 else {
-                    System.out.printf("%-8s %-20s %-20s %-20s %-10s %-15s %-10s\n",
-                            "Book ID", "Book Name", "Book Author", "Publisher", "Price", "Book Type", "Available");
-                    System.out.println(
-                            "--------------------------------------------------------------------------------------------------------------");
-                    for (Book b : result) {
-                        System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
-                                b.getBookid(), b.getBookname(), b.getAuthor(), b.getPublisher(),
-                                b.getPrice(), b.getBooktype(),books.get(b) ? "Yes":"No");
-                    }
+                    printbook(result, books);
                 }
-            break;
+
+                break;
             default:
-             System.out.println();
-             System.out.println("Try see The list of books by Selecting the option in the main menu");
-            break;
+                System.out.println();
+                System.out.println("Try see The list of books by Selecting the option in the main menu");
+                break;
+        }
+        delay();
+    }
+
+    // Method to print the Searched books
+    private static void printbook(List<Book> result, Map<Book, Boolean> books) {
+        System.out.println();
+        System.out.println("Fetching Book Details...........");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-8s %-20s %-20s %-20s %-10s %-15s %-10s\n",
+                "Book ID", "Book Name", "Book Author", "Publisher", "Price", "Book Type", "Available");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------");
+        if (result.isEmpty())
+            System.out.println("                                        Our Stack is Empty For Now!!!!!!!!!!!!!!!");
+        else {
+            for (Book b : result) {
+                System.out.printf("%-8d %-20s %-20s %-20s %-10d %-15s %-10s\n",
+                        b.getBookid(),
+                        b.getBookname(),
+                        b.getAuthor(),
+                        b.getPublisher(),
+                        b.getPrice(),
+                        b.getBooktype(),
+                        books.get(b) ? "Yes" : "No");
+            }
+        }
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------");
+    }
+
+    public static void displaybyauthor(Map<Book, Boolean> books) {
+        List<Book> sortedbytitlebooks = books.keySet().stream()
+                .sorted(Comparator.comparing((Book b) -> b.getAuthor()))
+                .collect(Collectors.toList());
+        printbook(sortedbytitlebooks, books);
+        delay();
+    }
+
+    public static void isavailable(Map<Book, Boolean> books) {
+        List<Book> result = books.keySet().stream().filter(b -> books.get(b) == true).collect(Collectors.toList());
+        printbook(result, books);
+        delay();
+    }
+
+    public static void isborrowed(Map<Book, Boolean> books) {
+        List<Book> result = books.keySet().stream().filter(b -> books.get(b) == false).collect(Collectors.toList());
+        printbook(result, books);
+        delay();
+    }
+
+    public static void borrow(Map<Book, Boolean> books, Scanner sc) {
+        System.out.println("Avaliable book.........");
+        isavailable(books);
+        System.out.println("Enter the book id you wanna borrow");
+        int id = sc.nextInt();
+        sc.nextLine();
+        Book obj = books.keySet().stream().filter(b -> b.getBookid() == id).findFirst().get();
+        books.put(obj, false);
+        System.out.println("Book borrowed successfully");
+        delay();
+    }
+
+    public static void returnbook(Map<Book, Boolean> books, Scanner sc) {
+        System.out.println("Enter the ID of the book you wanna Return");
+        int id = sc.nextInt();
+        sc.nextLine();
+        Book obj = books.keySet().stream().filter(b -> b.getBookid() == id).findFirst().get();
+        if (books.get(obj) == true) {
+            System.out.println("Wrong ID Returning to Main Menu");
+        } else {
+            books.put(obj, true);
+            System.out.println("Book Returned Successfully");
+        }
+        delay();
+    }
+
+    public static void delay() {
+        System.out.println("Returning to Main Menu.........");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,13 +1,8 @@
 package Project;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @SuppressWarnings("unused")
 public class librarymanager extends bookmanager {
@@ -18,8 +13,8 @@ public class librarymanager extends bookmanager {
             Scanner sc = new Scanner(System.in);
             int choice;
             do {
-                   System.out.println(
-                        "--------------------------------------------------------------------------------------------------------------");
+                  System.out.println(
+                              "--------------------------------------------------------------------------------------------------------------");
                   System.out.println("Welcome to the Library Management System");
                   System.out.println("1. Add a book");
                   System.out.println("2. Delete a book");
@@ -48,22 +43,22 @@ public class librarymanager extends bookmanager {
                               displaybytitle(books);
                               break;
                         case 5:
-                              System.out.println("List of books by Authors");
+                              displaybyauthor(books);;
                               break;
                         case 6:
-                              System.out.println("Show available books");
+                              isavailable(books);
                               break;
                         case 7:
-                              System.out.println("Show borrowed books");
+                              isborrowed(books);
                               break;
                         case 8:
-                              System.out.println("Borrow a Book");
+                              borrow(books,sc);
                               break;
                         case 9:
-                              System.out.println("Return a Book");
+                              returnbook(books, sc);
                               break;
                         case 0:
-                              System.out.println("Exit");
+                              System.out.println("Thank you Visit Again...........");
                               break;
                         default:
                               System.out.println("Invalid choice");
@@ -74,4 +69,3 @@ public class librarymanager extends bookmanager {
             sc.close();
       }
 }
-

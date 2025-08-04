@@ -20,12 +20,11 @@ public class librarymanager extends bookmanager {
                   System.out.println("2. Delete a book");
                   System.out.println("3. Search a book");
                   System.out.println("4. List of books by Title");
-                  System.out.println("5. List of books by Authors");
-                  System.out.println("6. Show available books");
-                  System.out.println("7. Show borrowed books");
-                  System.out.println("8. Borrow a Book");
-                  System.out.println("9. Return a Book");
-                  System.out.println("0. Exit");
+                  System.out.println("5. Show available books");
+                  System.out.println("6. Show borrowed books");
+                  System.out.println("7. Borrow a Book");
+                  System.out.println("8. Return a Book");
+                  System.out.println("9. Exit");
                   System.out.println("Enter your choice");
                   choice = sc.nextInt();
                   sc.nextLine();
@@ -34,30 +33,27 @@ public class librarymanager extends bookmanager {
                               addbook(books, sc);
                               break;
                         case 2:
-                              deletebook(books, sc);
+                              deletebooks(books, sc);
                               break;
                         case 3:
-                              searchbook(books, sc);
+                              searchbooks(books, sc);
                               break;
                         case 4:
-                              displaybytitle(books);
+                              printbook(null, books);
                               break;
                         case 5:
-                              displaybyauthor(books);;
-                              break;
-                        case 6:
                               isavailable(books);
                               break;
-                        case 7:
-                              isborrowed(books);
+                        case 6:
+                              isborrow(books);
                               break;
-                        case 8:
+                        case 7:
                               borrow(books,sc);
                               break;
-                        case 9:
+                        case 8:
                               returnbook(books, sc);
                               break;
-                        case 0:
+                        case 9:
                               System.out.println("Thank you Visit Again...........");
                               break;
                         default:
@@ -65,7 +61,7 @@ public class librarymanager extends bookmanager {
                               break;
                   }
 
-            } while (choice != 0);
+            } while (choice != 9);
             sc.close();
       }
 }
